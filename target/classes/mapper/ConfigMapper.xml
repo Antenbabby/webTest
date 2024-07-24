@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.antennababy.demo.web.webtest.demos.mapper.ConfigMapper">
+
+    <resultMap id="BaseResultMap" type="top.antennababy.demo.web.webtest.demos.domain.Config">
+            <id property="id" column="ID" jdbcType="INTEGER"/>
+            <result property="name" column="NAME" jdbcType="VARCHAR"/>
+            <result property="value" column="VALUE" jdbcType="VARCHAR"/>
+            <result property="desc" column="DESC" jdbcType="VARCHAR"/>
+            <result property="pid" column="PID" jdbcType="INTEGER"/>
+            <result property="remark" column="REMARK" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID,NAME,VALUE,
+        DESC,PID,REMARK
+    </sql>
+</mapper>
