@@ -32,7 +32,7 @@ public class NetCutStorageUtil {
     //内容密码
     private static final String CONTENT_PSW = "8a949b6843d3474f83f8bee5b143db96";
     //缓存开关
-    private static final boolean cacheSwitch = true;
+    private static final boolean cacheSwitch = false;
 
 
     //缓存
