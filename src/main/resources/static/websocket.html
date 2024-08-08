@@ -8,20 +8,21 @@
 </head>
 
 <body>
-<div id="main" style="width: 1200px;height:800px;"></div>
-Welcome<br/><input id="text" type="text"/>
-<button onclick="send()">发送消息</button>
-<hr/>
-<button onclick="closeWebSocket()">关闭WebSocket连接</button>
-<hr/>
-<div id="message"></div>
+<div id="main" style="width: 1200px;height:800px;">
+    Welcome<br/><input id="text" type="text"/>
+    <button onclick="send()">发送消息</button>
+    <hr/>
+    <button onclick="closeWebSocket()">关闭WebSocket连接</button>
+    <hr/>
+    <div id="message"></div>
+</div>
 </body>
 <script type="text/javascript">
     var websocket = null;
     //判断当前浏览器是否支持WebSocket
     if ('WebSocket' in window) {
         //改成你的地址
-        websocket = new WebSocket("ws://" + window.location.origin.replace("http://", "") + "/api/websocket/"+Math.floor(Math.random() * 10));
+        websocket = new WebSocket("ws://" + window.location.origin.replace("http://", "") + "/api/websocket/" + Math.floor(Math.random() * 10));
     } else {
         alert('当前浏览器 Not support websocket')
     }
