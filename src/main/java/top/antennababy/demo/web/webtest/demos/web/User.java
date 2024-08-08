@@ -23,11 +23,18 @@ import lombok.Setter;
  * @author <a href="mailto:chenxilzx1@gmail.com">theonefx</a>
  */
 @Setter
-@Getter
 public class User {
 
     private String name;
 
     private Integer age;
 
+    public String getName() {
+        return name;
+    }
+
+    public Integer getAge() {
+        System.out.println("调用了User.getAge");
+        return age;
+    }
 }

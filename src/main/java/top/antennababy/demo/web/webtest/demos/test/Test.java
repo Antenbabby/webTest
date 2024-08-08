@@ -14,18 +14,20 @@ import java.util.stream.Stream;
 
 public class Test {
     public static void main(String[] args) {
-        //中位线
-        Map<String,Double> midLineMap=new LinkedHashMap<>();
-        midLineMap.put("07:13", 0.0);
-        midLineMap.put("07:24", 0.0);
-        midLineMap.put("07:25", 0.1);
-        midLineMap.put("07:26", 0.0);
-        midLineMap.put("07:37", 0.0);
-        midLineMap.put("07:38", 0.0);
-//        midLineMap.put("07:49", 0.0);
-        midLineMap.put("07:51", 0.0);
-        //拼接10分钟内连续的时段  07:13 - 09:22 ；13:52 - 14:31;
+//        //中位线
+//        Map<String,Double> midLineMap=new LinkedHashMap<>();
+//        midLineMap.put("07:13", 0.0);
+//        midLineMap.put("07:24", 0.0);
+//        midLineMap.put("07:25", 0.1);
+//        midLineMap.put("07:26", 0.0);
+//        midLineMap.put("07:37", 0.0);
+//        midLineMap.put("07:38", 0.0);
+////        midLineMap.put("07:49", 0.0);
+//        midLineMap.put("07:51", 0.0);
+//        //拼接10分钟内连续的时段  07:13 - 09:22 ；13:52 - 14:31;
 
+        double activePercent = 287 * 5.0 / DateUtil.between(DateUtil.parseDateTime("2024-07-23 00:01:00"),DateUtil.parseDateTime("2024-07-23 23:56:00"), DateUnit.MINUTE) * 100;
+        System.out.printf("活跃时间占比:%.2f", activePercent);
     }
 
     public static String getTimeDuration(Map<String,Double> data, Predicate<Double> predicate){

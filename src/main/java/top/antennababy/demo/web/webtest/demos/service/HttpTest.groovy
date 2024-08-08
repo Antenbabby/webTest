@@ -1,11 +1,13 @@
 package top.antennababy.demo.web.webtest.demos.service
 
+import cn.hutool.core.io.IoUtil
 import cn.hutool.http.HttpRequest
 import cn.hutool.http.HttpResponse
 import cn.hutool.http.HttpUtil
 import groovyx.net.http.ContentType
 import groovyx.net.http.HTTPBuilder
 import groovyx.net.http.Method
+import groovyx.net.http.RESTClient
 
 class HttpTest {
 //    static void main(String[] args) {
@@ -33,23 +35,11 @@ class HttpTest {
 //        }
 //    }
     static void main(String[] args) {
-        def response = HttpRequest.post("https://mirror-test.v.laikang.com/api/mirror/login/loginByThird")
-                .header("Content-Type", "application/json")
-                .body("{\n" +
-                        "  \"version\": \"1.0\",\n" +
-                        "  \"head\": {\n" +
-                        "    \"bodytype\": \"flat\",\n" +
-                        "    \"maxresults\": 10,\n" +
-                        "    \"firstresult\": 0\n" +
-                        "  },\n" +
-                        "  \"body\": [\n" +
-                        "    {\n" +
-                        "      \"appcode\": \"nUVmja3M\",\n" +
-                        "      \"orgcode\": \"lkdnyfq\",\n" +
-                        "      \"token\": \"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvUm55ZzVVWjM0VTZqY3o1RHU2WW9YVUhqUVpnIiwicm9sZXMiOlsiUk9MRV9DVVNUT01FUiJdLCJ1c2VySW5mbyI6eyJpZCI6MTA3OTEsIm91dElkIjoiNDIzOCIsInVzZXJOYW1lIjoib1JueWc1VVozNFU2amN6NUR1NllvWFVIalFaZyIsInVzZXJOaWNrIjoi6KiA5oyC6ZKpIiwiaGVhZFVybCI6Imh0dHBzOi8vbGstc2h1emhpemhvbmd0YWktY29tbW9uLm9zcy1jbi1iZWlqaW5nLmFsaXl1bmNzLmNvbS9haS1sYWlrYW5nLWNvbS9JbnRlbGxpZ2VudEZpdmVUZWFjaGVyc1d4L2ZpdmV0ZWFjaGVycy9ib3klNDAzeC5wbmciLCJtb2JpbGUiOiIxODgxMTYwNTUzMSIsImdlbmRlciI6MSwiYmlydGhEYXkiOjE3MDQ2NDMyMDAwMDAsImNyZWF0ZVRpbWUiOjE2OTM4OTMwNDQwMDAsInVzZXJUeXBlIjoxLCJvcmdDb2RlIjpudWxsLCJpbVVzZXJJZCI6ImhiX2RldkAxMDc5MSIsInVwZGF0ZVRpbWUiOjE3MTYxODk1MDUwMDAsInJvbGVzIjpbIlJPTEVfQ1VTVE9NRVIiXX0sImlhdCI6MTcxNjE5MTM2MiwiZXhwIjoxODczODcxMzYyfQ.RDLuuTbu3w2ONUfdtYIY162sxfgQGOYC4cv5AW0vJMY\"\n" +
-                        "    }\n" +
-                        "  ]\n" +
-                        "}").execute();
-        response.getCookies().each { println it }
+        new RESTClient("http://localhost:3001/enum/get/enum").request(Method.POST,ContentType.JSON) {
+            body = [configKeys: ['CertificateTypeEnum']]
+            response.success = { resp, reader ->
+                print( reader)
+            }
+        }
     }
 }
