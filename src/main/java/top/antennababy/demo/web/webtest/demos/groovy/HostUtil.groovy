@@ -1,7 +1,7 @@
 package top.antennababy.demo.web.webtest.demos.groovy
 
 class HostUtil {
-    static String getHost() {
+    static def getHost() {
         InetAddress address = null;
         try {
             address = InetAddress.getLocalHost();
