@@ -153,6 +153,7 @@ public class WebSocketServer {
             try {
                 //这里可以设定只推送给这个sid的，为null则全部推送
                 if (sid == null) {
+                    log.warn("客户端已断开连接");
 //                    item.sendMessage(message);
                 } else if (item.sid.equals(sid)) {
                     item.sendMessage(message);
