@@ -3,6 +3,7 @@ package top.antennababy.demo.web.webtest.demos.web;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.lang.Opt;
 import cn.hutool.core.text.StrPool;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.http.HttpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -131,6 +132,10 @@ public class WebSocketServer {
     public void sendInfo(String message, @PathParam("sid") String sid) throws IOException {
         log.info("推送消息到窗口" + sid + "，推送内容:" + message);
         String url = NetCutStorageUtil.get("websocketSids" + sid);
+        if (StrUtil.isEmpty(url)) {
+            log.info("{}未连接",sid);
+            return;
+        }
         if (getUrl().equals(url)) {
             sendLocalMsg(message, sid);
         }else {
