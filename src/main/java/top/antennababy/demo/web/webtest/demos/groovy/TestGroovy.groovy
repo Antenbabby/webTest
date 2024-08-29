@@ -6,8 +6,8 @@ class TestGroovy {
     static void main(String[] args) {
 
         //获取工程根目录
-        FileUtil.listFileNames(System.getProperty("user.dir")+"/.vscode").each {
-            println(it)
+        FileUtil.loopFiles(System.getProperty("user.dir")+"/.vscode").each {
+            println(it.getAbsolutePath())
         }
     }
 }
