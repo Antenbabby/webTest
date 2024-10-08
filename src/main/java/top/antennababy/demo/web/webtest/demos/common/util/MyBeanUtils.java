@@ -1,30 +1,30 @@
 package top.antennababy.demo.web.webtest.demos.common.util;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
+
+import cn.hutool.core.lang.Assert;
+import org.springframework.beans.BeanUtils;
+
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Opt;
-import cn.hutool.core.map.multi.RowKeyTable;
-import cn.hutool.core.map.multi.Table;
 import cn.hutool.core.text.StrPool;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HtmlUtil;
+import cn.hutool.json.JSONConfig;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.google.common.collect.HashBasedTable;
-import com.google.common.collect.TreeBasedTable;
-import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 @Slf4j
 public class MyBeanUtils {
+
     /**
      * 把source转为target
      * @param source source
@@ -70,10 +70,10 @@ public class MyBeanUtils {
             Object newValue = ReflectUtil.getFieldValue(source, field);
             try {
                 if (newValue != null) {
-                    if (!BeanUtil.isBean(newValue.getClass())) {
+                    if ((!BeanUtil.isBean(newValue.getClass()))||BeanUtils.isSimpleProperty(newValue.getClass())) {
                         ReflectUtil.setFieldValue(target, field.getName(), newValue);
                     } else {
-                        ReflectUtil.setFieldValue(target, field, copySelective(newValue, ReflectUtil.getFieldValue(target, field)));
+                        ReflectUtil.setFieldValue(target, field.getName(), copySelective(newValue, ReflectUtil.getFieldValue(target, field)));
                     }
                 }
             } catch (Exception e) {
@@ -170,7 +170,7 @@ public class MyBeanUtils {
                     }
                     if (map.get(key) instanceof String) {
                         map.put(key, HtmlUtil.filter(val.toString()));
-                    } else if (BeanUtil.isBean(val.getClass())){
+                    } else if (BeanUtil.isBean(val.getClass())&&!BeanUtils.isSimpleProperty(val.getClass())){
                         map.put(key, filterObjHtml(val));
                     }
                 }
@@ -180,7 +180,7 @@ public class MyBeanUtils {
                     for (Object item : collection) {
                         if (item instanceof String) {
                             item = HtmlUtil.filter((String) item);
-                        } else if (BeanUtil.isBean(item.getClass())) {
+                        }  else if (BeanUtil.isBean(item.getClass())) {
                             item = filterObjHtml(item);
                         }
                     }
@@ -195,12 +195,27 @@ public class MyBeanUtils {
         }
         return obj;
     }
+    public static String toJsonIgnoreNull(Object obj) {
+        JSONConfig jsonConfig = new JSONConfig();
+        jsonConfig.setIgnoreNullValue(true);
+        return JSONUtil.toJsonStr(obj,jsonConfig);
+    }
 
-    public static void main(String[] args) {
-        Table<String,String,String> rowKeyTable = new RowKeyTable<>(new LinkedHashMap<>(), LinkedHashMap::new);
-        rowKeyTable.put("2","1","3");
-        rowKeyTable.put("1","2","2");
-        rowKeyTable.put("1","1","1");
-        System.out.println(JSONUtil.toJsonStr(rowKeyTable.rowMap()));
+    public static Object getByPath(String jsonStr, String path) {
+        JSONObject jsonObject = JSONUtil.parseObj(jsonStr);
+        return JSONUtil.getByPath(jsonObject, path);
+    }
+
+    public static <T> T safeGet(ExceptionSupplier<T, Exception> supplier) {
+        try {
+            return supplier.get();
+        } catch (Exception ex) {
+            log.error("safeGet error",ex);
+            return null;
+        }
+    }
+    @FunctionalInterface
+    public interface ExceptionSupplier<R, E extends Exception> {
+        R get() throws E;
     }
 }

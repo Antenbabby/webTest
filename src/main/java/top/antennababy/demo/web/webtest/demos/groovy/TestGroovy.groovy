@@ -9,5 +9,7 @@ class TestGroovy {
         FileUtil.loopFiles(System.getProperty("user.dir")+"/.vscode").each {
             println(it.getAbsolutePath())
         }
+
+        println 14/5*5
     }
 }
